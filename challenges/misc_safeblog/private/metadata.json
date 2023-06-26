@@ -1,0 +1,19 @@
+{
+    "identifier": "misc-safeblog",
+    "name": "Safeblog",
+    "category": [
+        "misc",
+        "web"
+    ],
+    "difficulty": "hard",
+    "flag": [
+        "justCTF{wait_what?!_length_check?_who_need_that_these_days}"
+    ],
+    "files": [
+        {
+            "name": "challenge.7z",
+            "path": "./public/challenge.7z"
+        }
+    ],
+    "version": 0
+}

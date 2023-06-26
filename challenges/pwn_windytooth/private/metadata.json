@@ -1,0 +1,11 @@
+{
+    "identifier": "pwn-windytooth",
+    "name": "Windytooth",
+    "description": "I reported a 0day in Zephyr more than a month ago along with a patch but they still didn't bother to fix it, so here we are.\n\n```\nnc windytooth.nc.jctf.pro 1337\n```\n\nAuthor: Arusekk",
+    "category": "pwn",
+    "difficulty": "hard",
+    "flag": [
+        "justCTF{ZephyrOS:BuildToBeSecureButNotSoSecure}"
+    ],
+    "version": 1
+}

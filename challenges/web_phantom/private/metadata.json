@@ -1,0 +1,10 @@
+{
+    "identifier": "phantom",
+    "name": "Phantom",
+    "category": "web",
+    "difficulty": "medium",
+    "flag": [
+        "justCTF{why_on_earth_does_my_app_handle_HEADs}"
+    ],
+    "version": 3
+}

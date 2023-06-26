@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - caddy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # this volume is needed to keep the certificates
+      # otherwise, new ones will be re-issued upon restart
+      - caddy_data:/data
+    labels: # Global options
+      caddy.email: justcatthefish+2023@gmail.com
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "5"
+
+  web:
+    build:
+      context: ./src/
+    restart: unless-stopped
+    privileged: true
+    # ports:
+    #   - 127.0.0.1:10001:8000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "5"
+    environment:
+      - FLAG=justCTF{why_on_earth_does_my_app_handle_HEADs}
+      - GRECAPTCHA=6Ld4B2YmAAAAAEUo6DU2-e1GVJHYIvSKZyNjXKHB
+    networks:
+      - caddy
+    labels:
+      caddy: phantom.web.jctf.pro
+      caddy.reverse_proxy: "{{upstreams 8000}}"
+
+networks:
+  caddy:
+
+volumes:
+  caddy_data: {}

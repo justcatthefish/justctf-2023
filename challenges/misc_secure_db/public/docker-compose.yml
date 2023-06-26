@@ -1,0 +1,30 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+
+    ports:
+      - "1337:1337"
+
+    environment:
+      - ORACLE=oracle:5050
+    networks:
+      - secure_db
+    depends_on:
+      - oracle
+
+  oracle:
+    build:
+      context: .
+      dockerfile: oracle.Dockerfile
+
+    environment:
+      - PASETO_KEY=YWEyN2U1YjIwYzgwMjAyYzRkNjM0ZGMzY2E5YTczYjI
+      - FLAG=justCTF{rand0m_flag_d0nt_us3}
+    networks:
+      - secure_db
+
+networks:
+  secure_db:

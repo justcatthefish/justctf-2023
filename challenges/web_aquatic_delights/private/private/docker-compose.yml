@@ -1,0 +1,18 @@
+version: '2.4'
+
+services:
+  manager:
+    build:
+      context: ./manager
+    restart: "unless-stopped"
+    environment:
+      - MAX_CORES=50
+      - FLAG=justCTF{r4c3_w1nn3r_w1nn3r_ch1ck3n_d1nn3r!}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    network_mode: host
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "5"

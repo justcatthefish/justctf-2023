@@ -1,0 +1,8 @@
+src
+private
+!private/secure_db_task-runner
+!private/private.key
+!private/db
+!private/libs
+!private/generated
+!src/frontend

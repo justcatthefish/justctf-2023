@@ -1,0 +1,11 @@
+boto3==1.26.142
+botocore==1.29.142
+cffi==1.15.1
+cryptography==40.0.2
+jmespath==1.0.1
+pycparser==2.21
+PyJWT==2.7.0
+python-dateutil==2.8.2
+s3transfer==0.6.1
+six==1.16.0
+urllib3==1.26.16

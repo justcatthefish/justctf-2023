@@ -1,0 +1,11 @@
+{
+    "identifier": "nucleus",
+    "name": "nucleus",
+    "description": "```\nnc nucleus.nc.jctf.pro 1337\n```\n\nAuthor: adamm",
+    "category": ["pwn"],
+    "difficulty": "easy",
+    "flag": [
+        "justCTF{d3c0mpr3ss_4_fun}"
+    ],
+    "version": 4
+}

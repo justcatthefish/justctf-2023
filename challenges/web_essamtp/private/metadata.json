@@ -1,0 +1,11 @@
+{
+	"identifier": "web-essamtp",
+	"name": "ESSAMTP",
+	"description": "ESSAMTP: Encrypted Simple Sender-Adversary Mail Transfer Protocol\n\nit's encrypted you know, so it should not matter that we gave you MITM capability...\n\n* http://essamtp.web.jctf.pro:5000/\n* Relay: essamtp.web.jctf.pro:8025",
+	"category": "web",
+	"difficulty": "easy",
+	"flag": [
+		"justCTF{n0_3ncrypt1on_1s_nev3r_s4fe_bu7_p4rtial_is_med1ocre_at_b3st}"
+	],
+	"version": 1
+}

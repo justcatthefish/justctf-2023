@@ -1,0 +1,17 @@
+{
+    "identifier": "web-dangerous",
+    "name": "Dangerous",
+    "description": "My friend told me there's a secret page on this forum, but it's only for administrators.",
+    "category": "web",
+    "difficulty": "easy",
+    "flag": [
+        "justCTF{1_th1nk_4l1ce_R4bb1t_m1ght_4_4_d0g}"
+    ],
+    "files": [
+        {
+            "name": "dangerous_48b8563c994cab3c7f55661ef65c0159.tar",
+            "path": "./public/dangerous_48b8563c994cab3c7f55661ef65c0159.tar"
+        }
+    ],
+    "version": 2
+}

@@ -1,0 +1,11 @@
+{
+	"identifier": "web-perfect-product",
+	"name": "Perfect Product",
+	"description": "Check out my newest product gallery.",
+	"category": "web",
+	"difficulty": "medium",
+	"flag": [
+		"justCTF{found_the_bug_myself_but_i_guess_people_like_to_report_0days_publicly}"
+	],
+	"version": 1
+}

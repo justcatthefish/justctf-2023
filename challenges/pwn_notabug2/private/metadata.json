@@ -1,0 +1,11 @@
+{
+    "identifier": "notabug2",
+    "name": "notabug2",
+    "description": "Let it roll ( :) this time intended way). It's a feature, not a bug!\n\n```\nnc notabug2.nc.jctf.pro 1337\n```\n\nAuthors: adamm, haqpl",
+    "category": "pwn",
+    "difficulty": "medium",
+    "flag": [
+        "justCTF{SQL1t3_F34tur3_n0t_bug_Int3nd3d!11!!!111!!1}"
+    ],
+    "version": 2
+}

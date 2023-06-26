@@ -1,0 +1,26 @@
+{
+  "sprightBin": null,
+  "postgres": {
+    "host": "db",
+    "port": 5432,
+    "user": "rpg",
+    "password": "28b0c7fa02ea86c47f39e355b04f9cbf",
+    "database": "rpg"
+  },
+  "sessionServer": {
+    "address": "ws://sessionserver:8089/",
+
+    "maxSessionsPerIp": 24,
+
+    "heartbeatInterval": 10000,
+    "heartbeatTimeout": 5000,
+    "heartbeatSessionServerMaxSilence": 15000
+  },
+  "listenPort": 8081,
+  "launcherProcessCount": 4,
+  "instancePlayerLimit": 32,
+  "playerTimeout": 5000,
+  "playerTimeoutCheckInterval": 2500,
+  "validateSchema": true,
+  "noDatabase": false
+}

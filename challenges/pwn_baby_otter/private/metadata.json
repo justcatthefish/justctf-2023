@@ -1,0 +1,9 @@
+{
+    "name": "Baby Otter",
+    "description": "While countless CTF players revel in the companionship of 'just cats' or 'just fish', a truly distinguished cadre of enthusiasts takes pride in their extraordinary bond with otters. To join this exclusive league of otter aficionados you must embark upon a quest to unveil the well-guarded secret code that unlocks the gateway to otter ownership.\n\n```\nnc babyotter.nc.jctf.pro 1337\n```\n\nAuthor: FeDEX from OtterSec",
+    "identifier": "pwn-baby-otter",
+    "flag": ["justCTF{w3lc0me_in_the_l3ague_of_Otter!}"],
+    "category": ["pwn"],
+    "difficulty": "easy",
+    "version": 2
+}

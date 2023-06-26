@@ -1,0 +1,12 @@
+{
+	"identifier": "web-almost-finished2",
+	"name": "almost finished2",
+	"description": "I quit programming, I'm going to be a farmer.\n\n* [http://almostfinished2.web.jctf.pro](http://almostfinished2.web.jctf.pro)",
+	"description_files": [],
+	"category": "web",
+	"difficulty": "hard",
+	"flag": [
+		"justCTF{Re4lly_bliNd!}"
+	],
+	"version": 1
+}

@@ -1,0 +1,1 @@
+justCTF{found_the_bug_myself_but_i_guess_people_like_to_report_0days_publicly}

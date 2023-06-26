@@ -1,0 +1,11 @@
+{
+    "identifier": "re-trial-of-data",
+    "name": "Trial of Data",
+    "description": "Can you find the hidden secrets needed to complete the Trial of Data?\n\nPlease refer to the \"Trial of Bugs\" task for servers and files.\n\nAuthor: ptrtofuture",
+    "category": "re",
+    "difficulty": "medium",
+    "flag": [
+        "justCTF{N0t-tH4T-c0Mp13x-4f7eR-aL1}"
+    ],
+    "version": 0
+}

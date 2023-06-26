@@ -1,0 +1,11 @@
+// Example data, change this!!!
+{
+	"mods": [
+		{
+			"username": "janitor",
+			"password": "YnFKMplHf8gIxVDVXt5OtljNPDdUAXTY",
+			"allowed_ip": "10.24.170.69"
+		}
+	],
+	"flag": "justCTF{1_th1nk_4l1ce_R4bb1t_m1ght_4_4_d0g}"
+}

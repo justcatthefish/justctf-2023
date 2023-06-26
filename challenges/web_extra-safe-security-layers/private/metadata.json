@@ -1,0 +1,18 @@
+{
+	"identifier": "web-extra-safe-security-layers",
+	"name": "eXtra Safe Security layers",
+	"description": "I have a new security system, it's so safe that I don't even need to hide the source code.\n\nhttp://xssl.web.jctf.pro/",
+	"description_files": [],
+	"category": "web",
+	"difficulty": "easy",
+	"flag": [
+		"justCTF{M4nY_L4y3rS_M4nY_f4ilur3s_ae5bda97-8543-4a4b-84bf-22c6a0df6bdf}"
+	],
+	"files": [
+		{
+			"name": "web_extra-safe-security-layers_6837b5eff2a15f387f6488f01f311cb4.zip",
+			"path": "./public/web_extra-safe-security-layers_6837b5eff2a15f387f6488f01f311cb4.zip"
+		}
+	],
+	"version": 1
+}

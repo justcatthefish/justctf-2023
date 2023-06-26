@@ -1,0 +1,15 @@
+{
+    "identifier": "re-rustberry",
+    "name": "Rustberry",
+    "description": "I have enough of VMs. This is a simple crackme\n\nNote: flag is in format jctf{[A-Za-z0-9_]+}\n\nAuthor: Plukasik",
+    "category": ["re"],
+    "difficulty": "easy",
+    "flag": ["jctf{n0_vM_just_plain_0ld_ru5tb3rry_ch4ll}"],
+    "files": [
+        {
+            "name": "rustberry.exe",
+            "path": "./public/rustberry.exe"
+        }
+    ],
+    "version": 0
+}

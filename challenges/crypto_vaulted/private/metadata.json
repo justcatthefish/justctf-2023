@@ -1,0 +1,21 @@
+{
+    "identifier": "crypto-vaulted",
+    "name": "Vaulted",
+    "description": "This secure multisignature application will keep our flag safe. Mind holding on to one of the backup keys?\n\n```\nnc vaulted.nc.jctf.pro 1337\n```\n\n\nAuthor: Tjaden Hess from Trail of Bits",
+    "category": "crypto",
+    "difficulty": "easy",
+    "flag": [
+        "justCTF{n0nc4n0n1c4l_72037872768289199286663281818929329}"
+    ],
+    "files": [
+        {
+            "name": "docker.tar.gz",
+            "path": "./public/vaulted_docker.tar.gz"
+        },
+        {
+            "name": "vaulted.py",
+            "path": "./public/vaulted.py"
+        }
+    ],
+    "version": 7
+}

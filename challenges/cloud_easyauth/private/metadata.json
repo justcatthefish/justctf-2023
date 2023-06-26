@@ -1,0 +1,9 @@
+{
+    "name": "Easy Auth",
+    "description": "They said that it's easy to implement authentication and authorization using cloud services. Is it? ( ͡° ͜ʖ ͡°)\n\n* https://easyauth.web.jctf.pro/login\n\n*Remember that DDoS'ing AWS is illegal, plx do not do this, thx m8",
+    "identifier": "easyauth",
+    "category": ["web"],
+    "difficulty": "medium",
+    "flag": "justCTF{D0nt_trY_Us1ng_C0gn1to_1f_y0u_l1ke_g0od_sle3p}",
+    "version": 1
+}

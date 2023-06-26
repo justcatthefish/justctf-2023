@@ -1,0 +1,9 @@
+{
+    "name": "Mystery locker",
+    "description": "In the chaotic locker room, a mysterious heap of items awaits your wit and determination to uncover its secrets, but be prepared for mischievous surprises at every turn.\n\n```\nnc mysterylocker.nc.jctf.pro 1337\n```\n\n\nAuthor: Rivit",
+    "identifier": "pwn-mystery-locker",
+    "flag": ["justCTF{0h_n0_y0u_unl0ck3d_my_l0ck3r_4nd_th3r3_1s_4_h34p_0f_c01ns_1ns1de}"],
+    "category": ["pwn"],
+    "difficulty": "medium",
+    "version": 3
+}

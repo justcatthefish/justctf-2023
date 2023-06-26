@@ -1,0 +1,361 @@
+OffsetCodeBase := 0x1A11 + 1
+OffsetAppError := 0x1547
+OffsetCxaThrow := 0x159D
+OffsetAfterCxaThrow := 0x15A2
+OffsetCCall := 0x14B9
+OffsetLeave := 0x139A
+OffsetWriteFully := 0x1413
+OffsetSetBlocking := 0x139C
+
+OffsetRuntimeErrorTypeInfo := 0x7CC0
+OffsetInputMessage := 0x8038
+OffsetDtDebug := 0x7DB8
+
+OffsetRead := 0x1150
+
+RegTarget := $rbp
+RegValue := $rbx
+
+AddrBase := $rax
+AddrAppError := AddrBase + OffsetAppError
+AddrCxaThrow := AddrBase + OffsetCxaThrow
+AddrCCall := AddrBase + OffsetCCall
+AddrLeave := AddrBase + OffsetLeave
+AddrWriteFully := AddrBase + OffsetWriteFully
+AddrSetBlocking := AddrBase + OffsetSetBlocking
+AddrInTry := AddrBase + 0x1800
+AddrInputMessage := AddrBase + OffsetInputMessage
+AddrRead := AddrBase + OffsetRead
+
+StackPos := $rsp + 0x80
+SocketFdBackup := $rsp + 0x88
+Stack := $rsp + 0x400
+StackPtr := *StackPos
+
+$jmptable {
+    $rax <- $rip - OffsetAfterCxaThrow
+    $rip <- $rip - OffsetAfterCxaThrow + OffsetCodeBase + $r12
+}
+$assign {
+    $rip <- AddrInTry
+    RegTarget <- $_assign_to
+    RegValue <- $_assign_val
+    $r12 <- $r12 + 1
+}
+
+$call_save_arg {
+    (*StackPos)[-2 - $1] = $2
+}
+$call_save_pc {
+    (*StackPos)[-1] = $r12 + 2 // this instruction + call_finish
+}
+$call_finish {
+    $rip <- AddrInTry
+    RegTarget <- StackPos
+    RegValue <- *StackPos - (8 * $2)
+    $r12 <- $1
+    manual()
+}
+$return {
+    $rip <- AddrInTry
+    $r12 <- *((*StackPos) + (8 * $1) - 8)
+    RegTarget <- StackPos
+    RegValue <- *StackPos + (8 * $1)
+    manual()
+}
+
+$if_jump_to_else_cond {
+    $rip <- AddrInTry
+    RegTarget <- $rsp
+    RegValue <- 0
+    $r12 <- $r12 + 1 + ($2 & (~(-$1)))
+    manual()
+}
+$jump_to {
+    $rip <- AddrInTry
+    RegTarget <- $rsp
+    RegValue <- 0
+    $r12 <- $1
+    manual()
+}
+
+
+init() {
+    // The first instruction must setup us an early exception loop.
+    $rsp <- $rsp + 8
+    $rsp + 0x10 = AddrAppError
+
+    // Back up the fd
+    $rsp <- $rsp + 8
+    SocketFdBackup = *($rsp + 0x20 + 0x1C)
+
+    // Now we can aim to setup a better loop that doesn't leak memory.
+    // Do this by using the C call infrastructure.
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x00 = AddrCxaThrow
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x08 = $rbx
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x10 = AddrBase + OffsetRuntimeErrorTypeInfo
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x18 = 0x0
+
+    // Switch over to the new loop.
+    $rsp <- $rsp + 8
+    $rsp + 0x18 = AddrCCall
+
+    // Setup initial stack position.
+    StackPos = Stack
+
+    // Call main.
+    main()
+
+    0 = 0
+}
+
+ServerInput := $rsp + 0x20 + 0x460
+ServerKeyHex := ServerInput + 12
+
+main() {
+    var libc_addr, libc_hash, libc_strtab, libc_symtab, f_open, f_unlink, f_exit, i, j, fmt, flag_filename[2], flag[4], flag_len, socket_fd, flag_fd, rkeys[32]
+
+    findLibc(libc_addr, libc_hash, libc_strtab, libc_symtab)
+    findSymbol(f_open, *libc_addr, *libc_hash, *libc_strtab, *libc_symtab, 0x766be, @xorlit('open'), 0xffffffffff)
+    findSymbol(f_unlink, *libc_addr, *libc_hash, *libc_strtab, *libc_symtab, 0x7c5304b, @xorlit('unlink'), 0xffffffffffffff)
+    findSymbol(f_exit, *libc_addr, *libc_hash, *libc_strtab, *libc_symtab, 0x6cf04, @xorlit('exit'), 0xffffffffff)
+
+    if (*ServerInput != @xorlit('Session ')) | (@u4(ServerInput + 8) != @xorlit('ID: ')) {
+        c_call(*f_exit, 1, 0, 0)
+    }
+
+    socket_fd = *SocketFdBackup
+    flag_fd = *socket_fd + 1
+
+    flag_filename[0] = @xorlit('flag.txt')
+    flag_filename[1] = 0
+    flag[0] = 0
+    flag[1] = 0
+    flag[2] = 0
+    flag[3] = 0
+    c_call(*f_open, flag_filename, 0, 0)
+    c_call(AddrRead, *flag_fd, flag, 4 * 8 - 1)
+
+    c_call(*f_unlink, flag_filename, 0, 0)
+
+    strchr(flag_len, flag, 0)
+
+    generate_round_keys(rkeys)
+    encrypt(rkeys, flag)
+    xor_block(flag + 0x10, flag)
+    encrypt(rkeys, flag + 0x10)
+
+    //printf(@xorlit('%s\n'), flag, 0)
+
+    c_call(AddrWriteFully, *socket_fd, flag, 4 * 8)
+    c_call(AddrSetBlocking, *socket_fd, 1, 0)
+
+    // Print the message from the server.
+    while 1 {
+        flag[0] = 0
+        flag[1] = 0
+        flag[2] = 0
+        flag[3] = 0
+        c_call(AddrRead, *socket_fd, flag, 4 * 8 - 1)
+
+        // Strip all the text after the '/' character and exit.
+        strchr(flag_len, flag, 47)
+        if *flag_len != 100 {
+            printf(@xorlit('%.*s'), *flag_len, flag)
+            break
+        }
+
+        if *flag[0] == 0 {
+            break
+        }
+
+        printf(@xorlit('%s'), flag, 0)
+    }
+
+    c_call(*f_exit, 0, 0, 0)
+}
+
+ROUNDS := 40
+
+// x = (@ror(*x, 8) + *y) ^ *k
+// y = @rol(*y, 3) ^ *x
+
+generate_round_keys(rkeys) {
+    var a, b, i
+
+    unhex64(a, ServerKeyHex)
+    unhex64(b, ServerKeyHex + 16)
+
+    a = @rol(*a, 2) ^ (0x5d65fa8fe0597fba + 0xe57be1f87805f69e)
+    b = @ror(*b, 3) - (0x1c917d1ac9ac64a9 ^ 0xe57be1f87805f69e)
+
+    for i = 0; *i < ROUNDS; i = *i + 1 {
+        a = (@ror(*a, 8) + *b) ^ *i
+        b = @rol(*b, 3) ^ *a
+        (*rkeys)[*i] = *b
+    }
+}
+
+encrypt(rkeys, data) {
+    var i, x, y
+    x = *(*data)[0]
+    y = *(*data)[1]
+    for i = 0; *i < ROUNDS; i = *i + 1 {
+        x = (@ror(*x, 8) + *y) ^ (*(*rkeys)[4 ^ *i])
+        y = @rol(*y, 3) ^ *x
+    }
+    (*data)[0] = *x
+    (*data)[1] = *y
+}
+
+xor_block(block, prev) {
+    (*block)[0] = *(*block)[0] ^ *(*prev)[0]
+    (*block)[1] = *(*block)[1] ^ *(*prev)[1]
+}
+
+unhex64(ret, ptr) {
+    var i, v
+    v = 0
+    for i = 0; *i < 16; i = *i + 1 {
+        v = ((*v) << 4) + @u1((*ptr) + (*i)) - 48
+        if @u1((*ptr) + (*i)) >= 97 {
+            v = *v - 39
+        }
+    }
+    *ret = *v
+}
+
+link_map__l_addr := 0x00
+link_map__l_name := 0x08
+link_map__l_ld := 0x10
+link_map__l_next := 0x18
+
+DT_HASH := 4
+DT_STRTAB := 5
+DT_SYMTAB := 6
+
+findLibc(raddr, rhash, rstrtab, rsymtab) {
+    var r_debug, r_map, dyn, m, name, name_len
+
+    r_debug = *(AddrBase + OffsetDtDebug + 8)  // DT_DEBUG value addr
+    r_map = *(*r_debug + 8)
+
+    for m = *r_map; *m != 0; m = *(*m + link_map__l_next) {
+        name = *(*m + link_map__l_name)
+        strchr(name_len, *name, 0)
+
+        if *(*name + *name_len - 8) == @xorlit('ibc.so.6') {
+            break
+        }
+    }
+
+    *raddr = *(*m + link_map__l_addr)
+
+    for dyn = *(*m + link_map__l_ld); **dyn != 0; dyn = *dyn + 16 {
+        if **dyn == DT_HASH {
+            *rhash = *(*dyn + 8)
+        }
+        if **dyn == DT_STRTAB {
+            *rstrtab = *(*dyn + 8)
+        }
+        if **dyn == DT_SYMTAB {
+            *rsymtab = *(*dyn + 8)
+        }
+    }
+}
+
+strchr(reti, str, chr) {
+    var i, v
+
+    for i = 0; *i < 100; i = *i + 1 {
+        v = @u1(*str + *i)
+
+        if *v == *chr {
+            break
+        }
+        if *v == 0 {
+            i = 100
+            break
+        }
+    }
+    *reti = *i
+}
+
+Elf64_Sym__st_name := 0x00
+Elf64_Sym__st_value := 0x08
+
+findSymbol(raddr, laddr, lhash, lstrtab, lsymtab, hash, find_name, find_name_mask) {
+    var nbucket, bucket, chain, idx, sym, name
+    nbucket = @u4(*lhash + 0x00)
+    bucket = *lhash + 0x8
+    chain = *bucket + (*nbucket * 4)
+
+    hash = *hash % *nbucket;
+
+    *raddr = 0
+
+    for idx = @u4(*bucket + (*hash * 4)); *idx != 0; idx = @u4(*chain + (*idx * 4)) {
+        sym = *lsymtab + (*idx * 0x18)
+        name = *lstrtab + @u4(*sym + Elf64_Sym__st_name)
+        //printf(@xorlit('%s\n'), *name, 0)
+
+        if ((**name) & *find_name_mask) == *find_name {
+            *raddr = *laddr + *(*sym + Elf64_Sym__st_value)
+            break
+        }
+    }
+
+    //printf(@xorlit('%p\n'), *(*raddr), 0)
+}
+
+printf(fmt, a, b) {
+    c_call(AddrBase + 0x1030, fmt, *a, *b)
+}
+
+//c_call(AddrBase + 0x1410, 1, test, 8)
+
+c_call(addr, a, b, c) {
+    // We need to switch back to the memory leaking loop.
+    $rsp <- $rsp + 8
+    $rsp + 0x10 = AddrAppError
+
+    // Setup the call parameters.
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x00 = *addr
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x08 = *a
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x10 = *b
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x18 = *c
+
+    // Call.
+    $rsp <- $rsp + 8
+    $rsp + 0x30 = AddrAppError
+    $rsp <- $rsp + 8
+    $rsp + 0x28 = AddrLeave + 1
+
+    $rsp + 0x18 = AddrCCall + 1
+
+    // This could be overridden I think so restore for peace of mind.
+    $rsp <- $rsp + 8
+    $rsp + 0x10 = AddrAppError
+
+    // Switch back to clean loop.
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x00 = AddrCxaThrow
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x08 = $rbx
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x10 = AddrBase + OffsetRuntimeErrorTypeInfo
+    $rsp <- $rsp + 8
+    AddrInputMessage + 0x18 = 0x0
+
+    // Switch over to the new loop.
+    $rsp <- $rsp - 0x20 + 8
+    $rsp - 0x20 + 0x18 = AddrCCall
+}

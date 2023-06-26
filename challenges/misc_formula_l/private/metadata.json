@@ -1,0 +1,11 @@
+{
+    "identifier": "formula",
+    "name": "Formula L",
+    "description": "We didn't get to see a Grand Prix in Italy this year, but fortunately we got our hands on a telemetry file from another race. Can you find the flag?\n\n```\nUse nc formula.nc.jctf.pro 1337 to test the encoding\n```\n\n\nAuthor: @artcz",
+    "category": "misc",
+    "difficulty": "medium",
+    "flag": [
+        "justCTF{th3_fl4g_i5_in_4n07h3r_pIt5t0p}"
+    ],
+    "version": 1
+}

@@ -1,0 +1,5 @@
+{
+  "wsUrl": ["ws://[host]:8081", "ws://[host]:8082", "ws://[host]:8083", "ws://[host]:8084"],
+  "spawnMap": "main_map",
+  "baseSpritesheets": ["player"]
+}

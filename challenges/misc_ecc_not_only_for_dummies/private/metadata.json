@@ -1,0 +1,9 @@
+{
+    "name": "ECC not only for Dummies",
+    "description": "This to you will need to use all logic that you have\n\n```\nnc eccnotonlyfordummies.nc.jctf.pro 1337\n```\nPoW:\n[PoW on Github](https://github.com/balsn/proof-of-work)",
+    "identifier": "ecc-not-only-for-dummies",
+    "category": "misc",
+    "difficulty": "easy",
+    "flag": "justCTF{S4nd_S0metim3s_It$_EvEn_$0lv4ble}",
+    "version": 1
+}

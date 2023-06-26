@@ -1,0 +1,59 @@
+version: "3.3"
+services:
+  db:
+    image: "postgres:12"
+    restart: unless-stopped
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+      - ./postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=28b0c7fa02ea86c47f39e355b04f9cbf
+      - POSTGRES_USER=rpg
+      - POSTGRES_DB=rpg
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "rpg", "-U", "rpg"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  sessionserver:
+    restart: unless-stopped
+    build:
+      context: server
+      dockerfile: Dockerfile
+    read_only: true
+    cap_drop: ['ALL']
+    security_opt:
+      - "no-new-privileges:true"
+    ports:
+      - "8089:8089"
+    entrypoint: node build/server/player_session_server.js
+    depends_on:
+      db:
+        condition: service_healthy
+  game:
+    restart: unless-stopped
+    build:
+      context: server
+      dockerfile: Dockerfile
+    read_only: true
+    cap_drop: ['ALL']
+    security_opt:
+      - "no-new-privileges:true"
+    ports:
+      - "8081-8084:8081-8084"
+    environment:
+      - FLAG_TRIAL_OF_DATA=justCTF{N0t-tH4T-c0Mp13x-4f7eR-aL1}
+      - FLAG_TRIAL_OF_BUGS=justCTF{g4M3_d3Ve1oPm3n7_i5_T0uGh}
+    entrypoint: node build/server/launcher.js
+    depends_on:
+      db:
+        condition: service_healthy
+  client:
+    restart: unless-stopped
+    ports:
+      - "80:8080"
+    security_opt:
+      - "no-new-privileges:true"
+    build:
+      context: client
+      dockerfile: Dockerfile

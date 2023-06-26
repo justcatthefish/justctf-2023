@@ -1,0 +1,11 @@
+.vscode
+build
+.gdb_history
+.idea
+__pycache__
+CMakeLists.txt.user
+main
+enc.txt
+vm-prog
+worker/worker
+test_log

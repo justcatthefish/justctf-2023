@@ -1,0 +1,12 @@
+{
+    "identifier": "tic-tac-pwn",
+    "name": "Tic Tac PWN!",
+    "description": "Let's pretend I just learned about this cool thing called RPC and wrote a simple example! Is it secure?\n```\nnc tictac.nc.jctf.pro 1337\n```\n\nNote: do not focus on run.sh, nsjail.cfg or the Dockerfile: those are there to host and jail/sandbox the challenge properly.\nNote2: If you get a `Couldn't initialize cgroup 2 user namespace for pid=...` in container logs, you lack cgroups v2 - you can mitigate this by commenting out `use_cgroupv2`, `group_pids_max`, `cgroup_mem_max`, `cgroup_cpu_ms_per_sec` lines in `nsjail.cfg`.\n\nAuthor: ptrtofuture",
+    "category": "pwn",
+    "difficulty": "medium",
+    "flag": [
+        "justCTF{4r3Nt-y0U-B0r3d-oF-NO7e-4pPs-d1ea42adb71ef81f}"
+    ],
+    "version": 3
+}
+

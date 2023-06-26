@@ -1,0 +1,9 @@
+{
+    "name": "Multi Auth",
+    "description": "Every crypto code may have bugs, so we have made a multi-authentication system diversifying across algorithms and languages.\n\n```\nnc multiauth.nc.jctf.pro 1337\n```\nAuthor: gros",
+    "identifier": "multi-auth",
+    "category": "crypto",
+    "difficulty": "easy",
+    "flag": "justCTF{br34k1ngAP1sLikeAPr0}",
+    "version": 0
+}

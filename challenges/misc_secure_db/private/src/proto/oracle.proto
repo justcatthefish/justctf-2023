@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+message Void {
+}
+
+message Task {
+  string question = 1;
+  string token = 2;
+}
+
+message TaskResponse {
+  string response = 1;
+  string token = 2;
+}
+
+message TaskResult {
+  string result = 1;
+}
+
+service Oracle {
+  rpc generateNewTask(Void) returns (Task);
+
+  rpc checkResponse(TaskResponse) returns (TaskResult);
+}

@@ -1,0 +1,18 @@
+
+MOV = 0
+ADD = 1
+SUB = 2
+MUL = 3
+MOD = 4
+XOR = 5
+AND = 6
+CALL = 0x12
+RET = 0x13
+JZ = 0x14
+JNZ = 0x15
+DEBUG = 0x21
+STOP = 0x22
+
+REG1 = 1
+REG2 = 2
+REG3 = 3

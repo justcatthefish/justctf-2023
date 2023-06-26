@@ -1,0 +1,9 @@
+{
+    "name": "manGO",
+    "identifier": "re-mango",
+    "description": "I like perfectly rounded mangos, how about you?",
+    "category": ["re"],
+    "flag": ["justCTF{1_h0pe_y0u_l1ke_mang0s_t00}"],
+    "difficulty": "easy",
+    "version": 1
+}

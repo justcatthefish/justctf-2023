@@ -1,0 +1,9 @@
+{
+    "name": "ECC for Dummies",
+    "description": "Sometimes you have to force logic to do what you want it to do\n\n```\nnc eccfordummies.nc.jctf.pro 1337\n```",
+    "identifier": "ecc-for-dummies",
+    "category": "misc",
+    "difficulty": "easy",
+    "flag": "justCTF{S0me7ime$_L0Gic_1s_n0T_B1n4ry_0101}",
+    "version": 0
+}
